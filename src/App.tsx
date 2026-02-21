@@ -1023,7 +1023,7 @@ function App() {
             value: "3",
             content: (<>
               <div>
-                <h2>Total Lenght (ft): {totalSum.toFixed(0)} ({totalCount} items)</h2>
+                <h2>Total Length (ft): {totalSum.toFixed(0)} ({totalCount} items)</h2>
 
                 <ul>
                   {Object.entries(byCategory).map(([cat, v]) => (
