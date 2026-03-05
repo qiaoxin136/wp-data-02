@@ -123,7 +123,7 @@ export type CustomEvent = {
 }
 // Hong's addition end
 
-const MAP_STYLE = "https://api.maptiler.com/maps/4dc46e7c-616b-4254-878e-ce7b47876939/style.json?key=tJMfy9mXElbPrO8efC90";
+const MAP_STYLE = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 // "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
 function DeckGLOverlay(
