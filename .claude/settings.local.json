@@ -3,7 +3,8 @@
     "allow": [
       "Bash(grep -r tab /c/temp/wp-data-01/src --include=*.tsx --include=*.ts --include=*.jsx --include=*.js -i)",
       "Bash(npm run:*)",
-      "WebFetch(domain:50fb42daa5.execute-api.us-east-1.amazonaws.com)"
+      "WebFetch(domain:50fb42daa5.execute-api.us-east-1.amazonaws.com)",
+      "WebFetch(domain:etwzctydh9.execute-api.us-east-1.amazonaws.com)"
     ]
   }
 }

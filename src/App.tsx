@@ -155,6 +155,7 @@ function App() {
   const { signOut } = useAuthenticator();
   //const client = generateClient<Schema>();
   const [location, setLocation] = useState<Array<Schema["Location"]["type"]>>([]);
+  const [jointMap, setJointMap] = useState<Record<string, boolean | null>>({});
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -237,6 +238,21 @@ function App() {
     });
     return () => sub.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    fetch(AIR_PORTS)
+      .then(res => res.json())
+      .then((geojson) => {
+        const map: Record<string, boolean | null> = {};
+        geojson.features?.forEach((f: { properties?: { id?: string; joint?: boolean | null } }) => {
+          if (f.properties?.id) {
+            map[f.properties.id] = f.properties.joint ?? null;
+          }
+        });
+        setJointMap(map);
+      })
+      .catch(err => console.error('Failed to fetch joint from AIR_PORTS:', err));
+  }, [location]);
 
   useEffect(() => {
     handleUserName();
@@ -504,10 +520,12 @@ function App() {
     else {
 
       const [lng, lat] = feature.geometry.coordinates;
+      const props = feature.properties as WaterFeatureProperties;
+      const match = location.find(loc => loc.id === props.id);
       setPopupInfo({
         longitude: lng,
         latitude: lat,
-        properties: feature.properties as WaterFeatureProperties,
+        properties: { ...props, joint: match?.joint ?? null },
       })
     };
   }, []);
@@ -653,7 +671,7 @@ function App() {
                         'case',
                         ['all',
                           ['any', ['==', ['get', 'type'], 'wastewater'], ['==', ['get', 'type'], 'stormwater']],
-                          ['==', ['get', 'joint'], true]
+                          ['any', ['==', ['get', 'joint'], true], ['==', ['get', 'joint'], false]]
                         ],
                         8,
                         4.2
@@ -910,7 +928,7 @@ function App() {
                           <TableCell /* width="15%" */>{location.photos ? location.photos.length : 0}</TableCell>
                           <TableCell /* width="15%" */>{location.lat}</TableCell>
                           <TableCell /* width="15%" */>{location.lng}</TableCell>
-                          <TableCell>{location.joint == null ? '' : location.joint ? 'true' : 'false'}</TableCell>
+                          <TableCell>{jointMap[location.id] == null ? '' : jointMap[location.id] ? 'true' : 'false'}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
