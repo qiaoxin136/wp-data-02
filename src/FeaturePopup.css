@@ -61,3 +61,11 @@
   color: #a0aec0 !important;
   word-break: break-all;
 }
+
+.mapboxgl-popup-close-button {
+  color: #1a202c;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 6px;
+}

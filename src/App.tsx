@@ -743,33 +743,40 @@ function App() {
                             </tr>
                           </tbody>
                         </table>
-                        <Button
+                        <button
                           onClick={() => {
-                            //console.log("clickinfo =" + clickInfo);
                             deleteLocation(popupInfo.properties.id);
                             setPopupInfo(null);
-                            //setShowPopup(false);
+                          }}
+                          style={{
+                            fontSize: '11px', padding: '2px 8px', cursor: 'pointer',
+                            border: '1px solid #c00', borderRadius: '3px',
+                            background: '#fff', color: '#c00',
                           }}
                         >
-                          Delete{" "}
-                        </Button>
-                        <br />
-                        <label>Place photos:</label><br />
+                          Delete
+                        </button>
+                        <br /><br />
+                        <label style={{ fontSize: '11px' }}>Place photos:</label><br />
                         <input type="file" multiple
                           onChange={(e) => previewPhotos(e)}
                           placeholder="new picture"
-                        /><br />
-
-                        <Button
+                          style={{ fontSize: '11px' }}
+                        /><br /><br />
+                        <button
                           onClick={(e) => {
                             console.log(popupInfo.properties);
                             handleSubmit(e, popupInfo.properties.id);
                             setPopupInfo(null);
-                            //setShowPopup(false);
+                          }}
+                          style={{
+                            fontSize: '11px', padding: '2px 8px', cursor: 'pointer',
+                            border: '1px solid #555', borderRadius: '3px',
+                            background: '#fff', color: '#333',
                           }}
                         >
                           Upload
-                        </Button>
+                        </button>
                       </div>
                     </Popup>
 
@@ -787,6 +794,36 @@ function App() {
                   <Radio value="street">Street</Radio>
                   <Radio value="satellite">Satellite</Radio>
                 </RadioGroupField>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '40px',
+                  left: '10px',
+                  background: 'rgba(255,255,255,0.92)',
+                  padding: '10px 14px',
+                  borderRadius: '6px',
+                  boxShadow: '0 1px 5px rgba(0,0,0,0.25)',
+                  fontSize: '12px',
+                  lineHeight: '1',
+                  zIndex: 1,
+                }}>
+                  <div style={{ fontWeight: 700, marginBottom: '8px', fontSize: '12px' }}>Legend</div>
+                  {([
+                    { label: 'Water',       color: '#2b6cb0' },
+                    { label: 'Wastewater',  color: '#2ea160' },
+                    { label: 'Stormwater',  color: '#eca4a4' },
+                    { label: 'Pavement',    color: '#a0a0a0' },
+                  ] as { label: string; color: string }[]).map(({ label, color }) => (
+                    <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <span style={{
+                        width: '12px', height: '12px', borderRadius: '50%',
+                        background: color, border: '2px solid #fff',
+                        boxShadow: '0 0 0 1px rgba(0,0,0,0.2)',
+                        flexShrink: 0,
+                      }} />
+                      {label}
+                    </div>
+                  ))}
+                </div>
               </Map>
             </>)
           },
@@ -831,6 +868,7 @@ function App() {
                         <TableCell as="th" /* style={{ width: '15%' }} */>Images</TableCell>
                         <TableCell as="th" /* style={{ width: '15%' }} */>Latitude</TableCell>
                         <TableCell as="th" /* style={{ width: '15%' }} */>Longitude</TableCell>
+                        <TableCell as="th">Joint</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -859,6 +897,7 @@ function App() {
                           <TableCell /* width="15%" */>{location.photos ? location.photos.length : 0}</TableCell>
                           <TableCell /* width="15%" */>{location.lat}</TableCell>
                           <TableCell /* width="15%" */>{location.lng}</TableCell>
+                          <TableCell>{location.joint != null ? String(location.joint) : ''}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
