@@ -868,7 +868,7 @@ function App() {
                 borderRadius="6px"
                 color="var(--amplify-colors-blue-60)"
                 padding="1rem"
-                height="800px"
+                height="700px"
               >
                 <ThemeProvider theme={theme} colorMode="light">
                   <Table caption="" highlightOnHover={false} variation="striped"
@@ -898,7 +898,7 @@ function App() {
                           if (trackDiff !== 0) return trackDiff;
                           const dateA = `${a.date ?? ''}T${a.time ?? ''}`;
                           const dateB = `${b.date ?? ''}T${b.time ?? ''}`;
-                          return dateA.localeCompare(dateB);
+                          return dateB.localeCompare(dateA);
                         }).map((location) => (
                         <TableRow
                           onDoubleClick={(e) => {
@@ -920,10 +920,10 @@ function App() {
                           <TableCell /* width="15%" */>{location.type}</TableCell>
                           <TableCell /* width="15%" */>{location.username}</TableCell>
                           <TableCell /* width="15%" */>{location.diameter}</TableCell>
-                          <TableCell /* width="15%" */>{location.length}</TableCell>
+                          <TableCell /* width="15%" */>{location.length != null ? Math.round(Number(location.length)) : ''}</TableCell>
                           <TableCell /* width="15%" */>{location.photos ? location.photos.length : 0}</TableCell>
-                          <TableCell /* width="15%" */>{location.lat}</TableCell>
-                          <TableCell /* width="15%" */>{location.lng}</TableCell>
+                          <TableCell /* width="15%" */>{location.lat != null ? Number(location.lat).toFixed(6) : ''}</TableCell>
+                          <TableCell /* width="15%" */>{location.lng != null ? Number(location.lng).toFixed(6) : ''}</TableCell>
                           <TableCell>{jointMap[location.id] == null ? '' : jointMap[location.id] ? 'true' : 'false'}</TableCell>
                         </TableRow>
                       ))}
