@@ -19,9 +19,7 @@ import './MapView.css';
 //import { MapboxOverlay, MapboxOverlayProps } from "@deck.gl/mapbox/typed";
 //import { PickingInfo } from "@deck.gl/core/typed";
 
-import "@aws-amplify/ui-react/styles.css";
-
-import "maplibre-gl/dist/maplibre-gl.css"; // Import maplibre-gl styles
+import "maplibre-gl/dist/maplibre-gl.css";
 
 import {
   Map,
@@ -62,9 +60,6 @@ import {
   // TextField,
 } from "@aws-amplify/ui-react";
 
-import "@aws-amplify/ui-react/styles.css";
-
-import "@aws-amplify/ui-react/styles.css";
 
 //import { IconLayer } from "@deck.gl/layers/typed";
 
@@ -128,7 +123,7 @@ type SelectOption = {
 };
 
 const AIR_PORTS =
-  "https://etwzctydh9.execute-api.us-east-1.amazonaws.com/test/getData";
+  "https://i0ss12q35g.execute-api.us-east-1.amazonaws.com/test/getData";
 
 
 
@@ -819,6 +814,7 @@ function App() {
                               <td>Type</td>
                               <td>
                                 <select
+                                  aria-label="Type"
                                   value={editType}
                                   onChange={e => setEditType(e.target.value)}
                                   style={{ fontSize: '11px', padding: '2px 4px', width: '100%' }}
@@ -834,6 +830,7 @@ function App() {
                               <td>Track</td>
                               <td>
                                 <input
+                                  aria-label="Track"
                                   type="number"
                                   value={editTrack}
                                   onChange={e => setEditTrack(e.target.value)}
@@ -845,6 +842,7 @@ function App() {
                               <td>Diameter</td>
                               <td>
                                 <input
+                                  aria-label="Diameter"
                                   type="number"
                                   value={editDiameter}
                                   onChange={e => setEditDiameter(e.target.value)}
@@ -856,6 +854,7 @@ function App() {
                               <td>Description</td>
                               <td>
                                 <input
+                                  aria-label="Description"
                                   type="text"
                                   value={editDescription}
                                   onChange={e => setEditDescription(e.target.value)}
@@ -867,6 +866,7 @@ function App() {
                               <td>Joint</td>
                               <td>
                                 <input
+                                  aria-label="Joint"
                                   type="checkbox"
                                   checked={editJoint}
                                   onChange={e => setEditJoint(e.target.checked)}
