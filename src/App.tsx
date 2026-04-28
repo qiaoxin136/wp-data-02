@@ -192,6 +192,7 @@ function App() {
   const [editDiameter, setEditDiameter] = useState<string>('');
   const [editType, setEditType] = useState<string>('water');
   const [editJoint, setEditJoint] = useState<boolean>(true);
+  const [editDate, setEditDate] = useState<string>('');
 
 
 
@@ -482,6 +483,7 @@ function App() {
       mutation UpdateLocation($input: UpdateLocationInput!) {
         updateLocation(input: $input) {
           id
+          date
           track
           type
           diameter
@@ -492,6 +494,7 @@ function App() {
     `;
     try {
       const input: Record<string, unknown> = { id };
+      if (editDate !== '') input.date = editDate;
       input.type        = editType;
       input.description = editDescription;
       input.joint       = editJoint;
@@ -580,6 +583,7 @@ function App() {
       setEditDiameter(props.diameter != null ? String(props.diameter) : '');
       setEditType(props.type ?? 'water');
       setEditJoint(match?.joint !== false);
+      setEditDate(props.date ?? '');
     };
   }, [location]);
 
@@ -808,7 +812,15 @@ function App() {
                           <tbody>
                             <tr>
                               <td>Date</td>
-                              <td>{popupInfo.properties.date}</td>
+                              <td>
+                                <input
+                                  aria-label="Date"
+                                  type="date"
+                                  value={editDate}
+                                  onChange={e => setEditDate(e.target.value)}
+                                  style={{ fontSize: '11px', padding: '2px 4px', width: '100%' }}
+                                />
+                              </td>
                             </tr>
                             <tr>
                               <td>Type</td>
