@@ -494,7 +494,7 @@ function App() {
     `;
     try {
       const input: Record<string, unknown> = { id };
-      if (editDate !== '') input.date = editDate;
+      input.date        = editDate;
       input.type        = editType;
       input.description = editDescription;
       input.joint       = editJoint;
@@ -583,7 +583,7 @@ function App() {
       setEditDiameter(props.diameter != null ? String(props.diameter) : '');
       setEditType(props.type ?? 'water');
       setEditJoint(match?.joint !== false);
-      setEditDate(props.date ?? '');
+      setEditDate(match?.date ?? props.date ?? '');
     };
   }, [location]);
 
