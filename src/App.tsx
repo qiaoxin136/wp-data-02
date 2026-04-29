@@ -727,10 +727,10 @@ function App() {
                       'circle-radius': [
                         'case',
                         ['all', ['any', ['==', ['get', 'type'], 'wastewater'], ['==', ['get', 'type'], 'stormwater']], ['==', ['get', 'joint'], false]],
-                        7,
+                        5,
                         ['all', ['any', ['==', ['get', 'type'], 'wastewater'], ['==', ['get', 'type'], 'stormwater']], ['==', ['get', 'joint'], true]],
-                        4.2,
-                        4.2
+                        3.5,
+                        3.5
                       ],
                       'circle-color': [
                         'match',
