@@ -1,11 +1,12 @@
 import type { ChangeEvent, SyntheticEvent } from "react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { checkLoginAndGetName } from "./utils/AuthUtils";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { generateClient } from "aws-amplify/data";
 import "@aws-amplify/ui-react/styles.css";
 import { uploadData, remove, getUrl } from "aws-amplify/storage";
+import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 import type { MapMouseEvent } from "mapbox-gl";
 
@@ -138,12 +139,15 @@ export type CustomEvent = {
 
 
 function PhotoImg({ path, height }: { path: string; height: number }) {
-  const [src, setSrc] = useState<string | null>(null);
-  useEffect(() => {
-    getUrl({ path }).then(({ url }) => setSrc(url.toString())).catch(() => setSrc(null));
-  }, [path]);
-  if (!src) return null;
-  return <img src={src} alt={path} height={height} style={{ marginLeft: '10px', marginBottom: '8px' }} />;
+  return (
+    <StorageImage
+      path={path}
+      alt="photo"
+      height={height}
+      style={{ marginLeft: '10px', marginBottom: '8px' }}
+      onGetUrlError={(err: Error) => console.error(`StorageImage failed for "${path}":`, err)}
+    />
+  );
 }
 
 interface PopupInfo {
@@ -158,6 +162,31 @@ function App() {
   const { signOut } = useAuthenticator();
   //const client = generateClient<Schema>();
   const [location, setLocation] = useState<Array<Schema["Location"]["type"]>>([]);
+
+  // Build a GeoJSON FeatureCollection directly from Amplify location state.
+  // This replaces the external API URL (AIR_PORTS) which was returning
+  // malformed JSON with invalid control characters, causing no points to render.
+  const locationGeoJSON = useMemo(() => ({
+    type: 'FeatureCollection' as const,
+    features: location
+      .filter(loc => loc.lat != null && loc.lng != null)
+      .map(loc => ({
+        type: 'Feature' as const,
+        geometry: { type: 'Point' as const, coordinates: [loc.lng!, loc.lat!] },
+        properties: {
+          id:          loc.id,
+          date:        loc.date ?? '',
+          time:        loc.time ?? '',
+          track:       loc.track ?? null,
+          type:        loc.type ?? '',
+          diameter:    loc.diameter ?? null,
+          length:      loc.length ?? null,
+          description: loc.description ?? '',
+          joint:       loc.joint ?? null,
+        },
+      })),
+  }), [location]);
+
   const [jointMap, setJointMap] = useState<Record<string, boolean | null>>({});
   type PhotoRecord = { id: string; date: string | null; description: string | null; photos: (string | null)[] | null };
   const [photosData, setPhotosData] = useState<PhotoRecord[]>([]);
@@ -260,19 +289,11 @@ function App() {
     return () => sub.unsubscribe();
   }, []);
 
+  // Build jointMap directly from Amplify location state (no external fetch needed).
   useEffect(() => {
-    fetch(AIR_PORTS)
-      .then(res => res.json())
-      .then((geojson) => {
-        const map: Record<string, boolean | null> = {};
-        geojson.features?.forEach((f: { properties?: { id?: string; joint?: boolean | null } }) => {
-          if (f.properties?.id) {
-            map[f.properties.id] = f.properties.joint ?? null;
-          }
-        });
-        setJointMap(map);
-      })
-      .catch(err => console.error('Failed to fetch joint from AIR_PORTS:', err));
+    const map: Record<string, boolean | null> = {};
+    location.forEach(loc => { map[loc.id] = loc.joint ?? null; });
+    setJointMap(map);
   }, [location]);
 
   useEffect(() => {
@@ -282,7 +303,11 @@ function App() {
         let nextToken: string | null | undefined = undefined;
         do {
           const { data, nextToken: token }: { data: Array<Schema["Location"]["type"]>; nextToken?: string | null } =
-            await client.models.Location.list({ limit: 1000, nextToken });
+            await client.models.Location.list({
+              limit: 1000,
+              nextToken,
+              selectionSet: ['id', 'date', 'description', 'photos'] as const,
+            });
           all = all.concat(data.map(d => ({
             id: d.id,
             date: d.date ?? null,
@@ -717,7 +742,7 @@ function App() {
                 onMouseLeave={onMouseLeave}
                 cursor={cursor}
               >
-                <Source id="water-data" type="geojson" data={AIR_PORTS}>
+                <Source id="water-data" type="geojson" data={locationGeoJSON}>
 
                   <Layer
                     id='water-points'
