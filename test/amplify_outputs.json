@@ -1,0 +1,24 @@
+{
+  "version": "1.3",
+  "auth": {
+    "user_pool_id": "us-east-1_QQ99oT3PS",
+    "aws_region": "us-east-1",
+    "user_pool_client_id": "4l7k6rqd78hvm8gt741adqai23",
+    "identity_pool_id": "us-east-1:f0c2a1a8-fa4f-4f7f-bd51-8d83e617bf53",
+    "unauthenticated_identities_enabled": true
+  },
+  "data": {
+    "url": "https://aimqqfnm45c77if3abri7tnl5a.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_region": "us-east-1",
+    "api_key": "da2-tnjzcrarz5ck5kbqsnzse2zz5u",
+    "default_authorization_type": "API_KEY",
+    "authorization_types": [
+      "AMAZON_COGNITO_USER_POOLS",
+      "AWS_IAM"
+    ]
+  },
+  "storage": {
+    "aws_region": "us-east-1",
+    "bucket_name": "amplify-dhojiff51kz5r-main-br-imagesbucket02b0ac5a-pb1ztfvsdf7m"
+  }
+}

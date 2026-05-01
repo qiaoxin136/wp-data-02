@@ -23,7 +23,19 @@ dist-ssr
 *.sln
 *.sw?
 
-# amplify
+# amplify (web — keep generated outputs out of web root)
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+# iOS — amplify_outputs.json is bundled into the app and must be tracked
+!test/amplify_outputs.json
+
+# iOS — Xcode user-specific / derived files
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# Old Xcode project (renamed to WashingtonPark.xcodeproj)
+test.xcodeproj/
