@@ -299,7 +299,7 @@ function App() {
         let all: PhotoRecord[] = [];
         let nextToken: string | null | undefined = undefined;
         do {
-          const { data, nextToken: token } =
+          const { data, nextToken: token }: { data: any[]; nextToken?: string | null } =
             await client.models.Location.list({
               limit: 1000,
               nextToken,
