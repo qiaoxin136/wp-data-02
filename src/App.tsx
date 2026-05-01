@@ -5,7 +5,7 @@ import { checkLoginAndGetName } from "./utils/AuthUtils";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { generateClient } from "aws-amplify/data";
 import "@aws-amplify/ui-react/styles.css";
-import { uploadData, remove, getUrl } from "aws-amplify/storage";
+import { uploadData, remove } from "aws-amplify/storage";
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 
 import type { MapMouseEvent } from "mapbox-gl";
@@ -122,9 +122,6 @@ type SelectOption = {
   value: string;
   label: string;
 };
-
-const AIR_PORTS =
-  "https://i0ss12q35g.execute-api.us-east-1.amazonaws.com/test/getData";
 
 
 
@@ -302,7 +299,7 @@ function App() {
         let all: PhotoRecord[] = [];
         let nextToken: string | null | undefined = undefined;
         do {
-          const { data, nextToken: token }: { data: Array<Schema["Location"]["type"]>; nextToken?: string | null } =
+          const { data, nextToken: token } =
             await client.models.Location.list({
               limit: 1000,
               nextToken,
