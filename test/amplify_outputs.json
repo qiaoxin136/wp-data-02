@@ -1,16 +1,16 @@
 {
   "version": "1.3",
   "auth": {
+    "user_pool_id": "us-east-1_QQ99oT3PS",
     "aws_region": "us-east-1",
-    "user_pool_id": "us-east-1_IfqtWLud8",
-    "user_pool_client_id": "2b8aveqr85q08h5hukgm4fvv6v",
-    "identity_pool_id": "us-east-1:71cbb60f-bccc-459f-ab92-79f88b295e29",
+    "user_pool_client_id": "4l7k6rqd78hvm8gt741adqai23",
+    "identity_pool_id": "us-east-1:f0c2a1a8-fa4f-4f7f-bd51-8d83e617bf53",
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://p2bu3lvetbhwfnde3bo4lh3zdy.appsync-api.us-east-1.amazonaws.com/graphql",
+    "url": "https://aimqqfnm45c77if3abri7tnl5a.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_region": "us-east-1",
-    "api_key": "da2-tcef46eg2zbjzgayb3cpb6dlkq",
+    "api_key": "da2-tnjzcrarz5ck5kbqsnzse2zz5u",
     "default_authorization_type": "API_KEY",
     "authorization_types": [
       "AMAZON_COGNITO_USER_POOLS",
@@ -19,6 +19,6 @@
   },
   "storage": {
     "aws_region": "us-east-1",
-    "bucket_name": "amplify-d1aolay3c77nz3-main-b-imagesbucket02b0ac5a-csttkl43dqp7"
+    "bucket_name": "amplify-dhojiff51kz5r-main-br-imagesbucket02b0ac5a-pb1ztfvsdf7m"
   }
 }
